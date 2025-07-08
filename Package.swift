@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SRoll",
+    platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(name: "SRoll")
     ]
