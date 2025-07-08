@@ -12,17 +12,17 @@ class Player {
             self.track = trackInput  // 22-character track ID
         } else if trackInput.starts(with: "https://open.spotify.com/track") {
             guard let url = URL(string: trackInput) else {
-                throw AppError.invalidTrackID
+                throw AppError.invalidTrackID(trackInput)
             }
 
             let pathComponents = url.pathComponents
             guard pathComponents.count >= 3, pathComponents[1] == "track" else {
-                throw AppError.invalidTrackID
+                throw AppError.invalidTrackID(trackInput)
             }
 
             self.track = pathComponents[2]  // track ID
         } else {
-            throw AppError.invalidTrackID
+            throw AppError.invalidTrackID(trackInput)
         }
     }
 

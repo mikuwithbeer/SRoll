@@ -49,6 +49,6 @@ Or let it choose completely at random:
 sroll
 ```
 
-## License
+## License
 
 SRoll is distributed under the MIT License.
