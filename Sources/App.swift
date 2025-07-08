@@ -1,14 +1,19 @@
 import ArgumentParser
 
 @main
-struct Sroll: ParsableCommand {
-    @Option(help: "Tracks to include")
+struct SRoll: ParsableCommand {
+    static let configuration = CommandConfiguration(
+        commandName: "sroll",
+        abstract: "Command-line tool to play random tracks on Spotify"
+    )
+
+    @Option(help: "List of playlist names to include (includes everything by default)")
     var include: [String] = []
 
     func run() throws(AppError) {
-        let data = try Config.load()
-
-        let player = try Player(data.select(include), delay: data.inputDelay)
+        let config = try Config.load()
+        let track = try config.pick(include)
+        let player = try Player(track, delayInput: config.delay)
         try player.run()
     }
 }

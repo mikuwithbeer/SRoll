@@ -1,11 +1,12 @@
 import Foundation
 
-typealias TrackTable = [String: [String]]
-
 struct Config: Decodable {
-    let inputDelay: UInt?
-    let tracks: TrackTable
+    /// Input delay before playback in milliseconds.
+    let delay: UInt?
+    /// All playlists and their tracks.
+    let playlist: [String: [String]]
 
+    /// Reads ~/.sroll.json and decodes it.
     static func load() throws(AppError) -> Self {
         var path = FileManager.default.homeDirectoryForCurrentUser
         path.append(component: ".sroll.json")
@@ -18,21 +19,19 @@ struct Config: Decodable {
         }
     }
 
-    func select(_ playlists: [String]) throws(AppError) -> String {
-        let playlistKeys: [String] =
-            if playlists.isEmpty {
-                Array(self.tracks.keys)
-            } else {
-                playlists
-            }
+    /// Picks a random track from the given playlists.
+    func pick(_ playlists: [String]) throws(AppError) -> String {
+        // picks from all available ones if list is empty
+        let keysToPickFrom = playlists.isEmpty ? Array(self.playlist.keys) : playlists
 
-        if let randomPlaylist = playlistKeys.randomElement() {
-            let tracks = self.tracks[randomPlaylist] ?? []
-            if let track = tracks.randomElement() {
-                return track
-            }
+        guard
+            let selectedPlaylist = keysToPickFrom.randomElement(),  // pick a playlist
+            let trackList = self.playlist[selectedPlaylist],  // get all tracks from playlist
+            let selectedTrack = trackList.randomElement()  // pick a track
+        else {
+            throw AppError.emptyTracklist
         }
 
-        throw AppError.emptyTracklist
+        return selectedTrack
     }
 }
