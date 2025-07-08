@@ -23,4 +23,16 @@ class Player {
 
         self.track = pathComponents[2]
     }
+
+    func run() throws {
+        let command = "/usr/bin/open"
+        let args = ["spotify:track:\(self.track)"]
+
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: command)
+        process.arguments = args
+
+        try process.run()
+        process.waitUntilExit()
+    }
 }

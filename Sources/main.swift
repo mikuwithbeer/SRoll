@@ -4,4 +4,4 @@
 let data = try Config.load().select([])
 
 let player = Player(data)
-print(player.track)
+try player.run()
