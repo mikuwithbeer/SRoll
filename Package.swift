@@ -6,7 +6,14 @@ import PackageDescription
 let package = Package(
     name: "SRoll",
     platforms: [.macOS(.v13)],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.6.1")
+    ],
     targets: [
-        .executableTarget(name: "SRoll")
+        .executableTarget(
+            name: "SRoll",
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser")
+            ])
     ]
 )
