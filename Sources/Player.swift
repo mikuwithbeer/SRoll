@@ -3,25 +3,23 @@ import Foundation
 class Player {
     var track: String
 
-    init(_ track: String) {
-        guard let url = URL(string: track) else {
+    init(_ track: String) throws(AppError) {
+        if track.count == 22 {
             self.track = track
-            return
+        } else if track.starts(with: "https://open.spotify.com/track") {
+            guard let url = URL(string: track) else {
+                throw AppError.invalidTrackID
+            }
+
+            let pathComponents = url.pathComponents
+            guard pathComponents.count >= 3, pathComponents[1] == "track" else {
+                throw AppError.invalidTrackID
+            }
+
+            self.track = pathComponents[2]
+        } else {
+            throw AppError.invalidTrackID
         }
-
-        let hostName = url.host()
-        let pathComponents = url.pathComponents
-
-        guard
-            hostName == "open.spotify.com",
-            pathComponents.count >= 3,
-            pathComponents[1] == "track"
-        else {
-            self.track = track
-            return
-        }
-
-        self.track = pathComponents[2]
     }
 
     func run() throws {
@@ -32,7 +30,11 @@ class Player {
         process.executableURL = URL(fileURLWithPath: command)
         process.arguments = args
 
-        try process.run()
-        process.waitUntilExit()
+        do {
+            try process.run()
+            process.waitUntilExit()
+        } catch {
+            throw AppError.appRunFailed
+        }
     }
 }

@@ -1,9 +1,6 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-
 let data = try Config.load()
 
-let player = Player(data.select([]))
+let player = try Player(data.select([]))
 try player.run()
 
 let input = Input(delay: data.inputDelay)
