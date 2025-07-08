@@ -2,4 +2,4 @@
 // https://docs.swift.org/swift-book
 
 let data = try Config.load()
-print(data)
+print(data.select(playlists: ["miku"]))

@@ -1,10 +1,12 @@
 import Foundation
 
-typealias Tracks = [String: [String]]
+let RICKROLL = "4PTG3Z6ehGkBFwjybzWkR8"
+
+typealias TrackTable = [String: [String]]
 
 struct Config: Decodable {
     let inputDelay: UInt?
-    let tracks: Tracks
+    let tracks: TrackTable
 
     static func load() throws -> Self {
         var path = FileManager.default.homeDirectoryForCurrentUser
@@ -12,5 +14,21 @@ struct Config: Decodable {
 
         let data = try Data(contentsOf: path)
         return try JSONDecoder().decode(Self.self, from: data)
+    }
+
+    func select(playlists: [String]) -> String {
+        let playlistKeys: [String] =
+            if playlists.isEmpty {
+                Array(self.tracks.keys)
+            } else {
+                playlists
+            }
+
+        if let randomPlaylist = playlistKeys.randomElement() {
+            let tracks = self.tracks[randomPlaylist] ?? []
+            return tracks.randomElement() ?? RICKROLL
+        } else {
+            return RICKROLL
+        }
     }
 }
