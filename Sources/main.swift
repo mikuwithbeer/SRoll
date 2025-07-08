@@ -1,7 +1,4 @@
 let data = try Config.load()
 
-let player = try Player(data.select([]))
+let player = try Player(data.select([]), delay: data.inputDelay)
 try player.run()
-
-let input = Input(delay: data.inputDelay)
-input.send()
