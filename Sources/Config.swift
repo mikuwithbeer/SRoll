@@ -1,7 +1,5 @@
 import Foundation
 
-let RICKROLL = "4PTG3Z6ehGkBFwjybzWkR8"
-
 typealias TrackTable = [String: [String]]
 
 struct Config: Decodable {
@@ -16,7 +14,7 @@ struct Config: Decodable {
         return try JSONDecoder().decode(Self.self, from: data)
     }
 
-    func select(playlists: [String]) -> String {
+    func select(_ playlists: [String]) -> String {
         let playlistKeys: [String] =
             if playlists.isEmpty {
                 Array(self.tracks.keys)
@@ -26,9 +24,9 @@ struct Config: Decodable {
 
         if let randomPlaylist = playlistKeys.randomElement() {
             let tracks = self.tracks[randomPlaylist] ?? []
-            return tracks.randomElement() ?? RICKROLL
+            return tracks.randomElement() ?? ""
         } else {
-            return RICKROLL
+            return ""
         }
     }
 }
