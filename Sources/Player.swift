@@ -1,9 +1,12 @@
 import Cocoa
 import Foundation
 
-class Player {
+struct Player {
     var track: String
     var delay: UInt
+
+    let spaceKey: CGKeyCode = 0x31
+    let returnKey: CGKeyCode = 0x24
 
     init(_ trackInput: String, delayInput: UInt?) throws(AppError) {
         self.delay = delayInput ?? 1000  // default to 1000 ms
@@ -44,13 +47,13 @@ class Player {
 
         guard
             let spaceDown = CGEvent(
-                keyboardEventSource: eventSource, virtualKey: 0x31, keyDown: true),
+                keyboardEventSource: eventSource, virtualKey: self.spaceKey, keyDown: true),
             let spaceUp = CGEvent(
-                keyboardEventSource: eventSource, virtualKey: 0x31, keyDown: false),
+                keyboardEventSource: eventSource, virtualKey: self.spaceKey, keyDown: false),
             let returnDown = CGEvent(
-                keyboardEventSource: eventSource, virtualKey: 0x24, keyDown: true),
+                keyboardEventSource: eventSource, virtualKey: self.returnKey, keyDown: true),
             let returnUp = CGEvent(
-                keyboardEventSource: eventSource, virtualKey: 0x24, keyDown: false)
+                keyboardEventSource: eventSource, virtualKey: self.returnKey, keyDown: false)
         else {
             throw AppError.commandRunFailed
         }
