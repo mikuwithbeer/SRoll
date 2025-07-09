@@ -1,13 +1,13 @@
 # SRoll
 
-Simple command-line tool to play random tracks on Spotify.  
+SRoll is a simple command-line tool to play random tracks on Spotify.
 
 ## Requirements
 
-- macOS *for now*
-- Spotify Desktop App must be installed and logged in
+- **macOS** (currently only supported platform)
+- **Spotify Desktop App** (must be installed and logged in)
 
-## Usage
+## Configuration
 
 Create a JSON config file at `~/.sroll.json` with the following structure:
 
@@ -31,7 +31,12 @@ Create a JSON config file at `~/.sroll.json` with the following structure:
 }
 ```
 
-You can try it out with:
+- `delay` is the time (in milliseconds) to wait before playback starts.
+- Each playlist can contain Spotify track IDs or full track URLs.
+
+## Usage
+
+Play a random track from a specific playlist:
 
 ```
 sroll --include miku
@@ -43,11 +48,16 @@ Include multiple playlists:
 sroll --include miku tiktok
 ```
 
-Or let it choose completely at random:
+Let SRoll choose from all playlists at random:
 
 ```
 sroll
 ```
+
+## Caution
+
+> **SRoll requires Accessibility permissions to simulate keyboard events.**
+> If you do not grant these permissions, playback control will not work.
 
 ## License
 
