@@ -25,11 +25,11 @@ struct Config: Decodable {
         let keysToPickFrom = playlists.isEmpty ? Array(self.playlist.keys) : playlists
 
         guard
-            let selectedPlaylist = keysToPickFrom.randomElement(),  // pick a playlist
-            let trackList = self.playlist[selectedPlaylist],  // get all tracks from playlist
-            let selectedTrack = trackList.randomElement()  // pick a track
+            let selectedPlaylistKey = keysToPickFrom.randomElement(),  // pick a playlist
+            let selectedPlaylist = self.playlist[selectedPlaylistKey],  // get all tracks from playlist
+            let selectedTrack = selectedPlaylist.randomElement()  // pick a track
         else {
-            throw AppError.emptyTracklist
+            throw AppError.emptyPlaylist
         }
 
         return selectedTrack
