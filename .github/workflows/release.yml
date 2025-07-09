@@ -26,7 +26,6 @@ jobs:
 
       - name: Archive binary
         run: |
-          cd dist
           tar -czvf sroll-macos.tar.gz dist/SRoll
 
       - name: Upload release
