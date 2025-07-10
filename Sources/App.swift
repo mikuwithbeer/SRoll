@@ -5,7 +5,7 @@ struct SRoll: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "sroll",
         abstract: "Command-line tool to play random tracks on Spotify",
-        version: "1.0.0"
+        version: "1.1.0"
     )
 
     @Argument(help: "List of playlist names to include.")
