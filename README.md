@@ -36,23 +36,30 @@ Create a JSON config file at `~/.sroll.json` with the following structure:
 
 ## Usage
 
-Play a random track from a specific playlist:
+Play a random track from specific playlists (default: all playlists):
 
 ```
-sroll --include miku
+sroll [PLAYLIST...]
 ```
 
-Include multiple playlists:
+### Examples
 
-```
-sroll --include miku tiktok
-```
+- Play a random track from the "miku" playlist:
+  ```
+  sroll miku
+  ```
+- Play a random track from "miku" or "tiktok":
+  ```
+  sroll miku tiktok
+  ```
+- Let SRoll choose from all playlists at random:
+  ```
+  sroll
+  ```
 
-Let SRoll choose from all playlists at random:
+### Options
 
-```
-sroll
-```
+- `--disable-input` : Disable playback keyboard input (does not require Accessibility permissions).
 
 ## Caution
 
