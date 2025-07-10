@@ -8,12 +8,12 @@ struct SRoll: ParsableCommand {
         version: "1.0.0"
     )
 
-    @Option(help: "List of playlist names to include (includes everything by default)")
-    var include: [String] = []
+    @Argument(help: "List of playlist names to include.")
+    var playlists: [String] = []
 
     func run() throws(AppError) {
         let config = try Config.load()
-        let track = try config.pick(include)
+        let track = try config.pick(playlists)
         let player = try Player(track, delayInput: config.delay)
         try player.run()
     }
