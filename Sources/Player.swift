@@ -4,11 +4,13 @@ import Foundation
 struct Player {
     var track: String
     var delay: UInt
+    var sendInput: Bool
 
     let spaceKey: CGKeyCode = 0x31
     let returnKey: CGKeyCode = 0x24
 
-    init(_ trackInput: String, delayInput: UInt?) throws(AppError) {
+    init(_ trackInput: String, delayInput: UInt?, sendInput: Bool) throws(AppError) {
+        self.sendInput = sendInput
         self.delay = delayInput ?? 1000  // default to 1000 ms
 
         if trackInput.count == 22 {
@@ -29,20 +31,7 @@ struct Player {
         }
     }
 
-    func run() throws(AppError) {
-        let spotifyURI = "spotify:track:\(self.track)"
-
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-        process.arguments = [spotifyURI]
-
-        do {
-            try process.run()
-            process.waitUntilExit()
-        } catch {
-            throw AppError.commandRunFailed
-        }
-
+    func sendPlaybackInput() throws(AppError) {
         let eventSource = CGEventSource(stateID: .combinedSessionState)
 
         guard
@@ -69,5 +58,24 @@ struct Player {
         // play the music
         returnDown.post(tap: .cghidEventTap)
         returnUp.post(tap: .cghidEventTap)
+    }
+
+    func run() throws(AppError) {
+        let spotifyURI = "spotify:track:\(self.track)"
+
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+        process.arguments = [spotifyURI]
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+        } catch {
+            throw AppError.commandRunFailed
+        }
+
+        if self.sendInput {
+            try self.sendPlaybackInput()
+        }
     }
 }
